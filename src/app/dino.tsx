@@ -1,32 +1,44 @@
-import { StyleSheet, View } from "react-native";
-import { useState, useEffect } from "react";
 import { ThemedView } from "@/components/themed-view";
+import { useRef } from "react";
+import { StyleSheet, View, Animated, Button } from "react-native";
 
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 300;
 const GROUND = 40; // altura do chão
 
 export default function DinoScreen() {
-  const [pulo, setPulo] = useState(0);
+  const pulo = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {}, []);
+  const iniciarPulo = () => {
+    Animated.sequence([
+      Animated.timing(pulo, {
+        toValue: -110,
+        duration: 300,
+        useNativeDriver: true,
+      }),
 
+      Animated.timing(pulo, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
   return (
     <ThemedView style={styles.container}>
       <View style={styles.game}>
         <View style={styles.ground} />
-        <View
-          style={{
-            position: "absolute",
-            bottom: GROUND, // em cima do chão
-            left: 40,
-            width: 44,
-            height: 48,
-            backgroundColor: "#535353",
-          }}
-        />
+        <Animated.View
+          style={[
+            styles.dino,
+            {
+              transform: [{ translateY: pulo }],
+            },
+          ]}
+        ></Animated.View>
         <View style={styles.cactus} />
       </View>
+      <Button title="PULI" onPress={iniciarPulo} />
     </ThemedView>
   );
 }

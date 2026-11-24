@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useState, useEffect } from "react";
 import { ThemedView } from "@/components/themed-view";
 
 const GAME_WIDTH = 800;
@@ -6,11 +7,24 @@ const GAME_HEIGHT = 300;
 const GROUND = 40; // altura do chão
 
 export default function DinoScreen() {
+  const [pulo, setPulo] = useState(0);
+
+  useEffect(() => {}, []);
+
   return (
     <ThemedView style={styles.container}>
       <View style={styles.game}>
         <View style={styles.ground} />
-        <View style={styles.dino} />
+        <View
+          style={{
+            position: "absolute",
+            bottom: GROUND, // em cima do chão
+            left: 40,
+            width: 44,
+            height: 48,
+            backgroundColor: "#535353",
+          }}
+        />
         <View style={styles.cactus} />
       </View>
     </ThemedView>

@@ -1,6 +1,6 @@
 import { ThemedView } from "@/components/themed-view";
 import { useRef } from "react";
-import { StyleSheet, View, Animated, Button } from "react-native";
+import { StyleSheet, View, Animated, Image, Pressable } from "react-native";
 
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 300;
@@ -8,26 +8,31 @@ const GROUND = 40; // altura do chão
 
 export default function DinoScreen() {
   const pulo = useRef(new Animated.Value(0)).current;
+  const estaPulando = useRef(false);
 
   const iniciarPulo = () => {
+    if (estaPulando.current) return;
+    estaPulando.current = true;
+
     Animated.sequence([
       Animated.timing(pulo, {
         toValue: -110,
         duration: 300,
         useNativeDriver: true,
       }),
-
       Animated.timing(pulo, {
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      estaPulando.current = false;
+    });
   };
   return (
     <ThemedView style={styles.container}>
-      <View style={styles.game}>
-        <View style={styles.ground} />
+      <Pressable onPressIn={iniciarPulo} style={styles.game}>
+        <View style={styles.ground}></View>
         <Animated.View
           style={[
             styles.dino,
@@ -35,10 +40,20 @@ export default function DinoScreen() {
               transform: [{ translateY: pulo }],
             },
           ]}
-        ></Animated.View>
+        >
+          {" "}
+          <Image
+            source={require("@/assets/images/dino_car_transparent.png")}
+            style={{
+              width: 120,
+              right: 37,
+              height: 58,
+              resizeMode: "contain",
+            }}
+          />
+        </Animated.View>
         <View style={styles.cactus} />
-      </View>
-      <Button title="PULI" onPress={iniciarPulo} />
+      </Pressable>
     </ThemedView>
   );
 }
@@ -70,7 +85,7 @@ const styles = StyleSheet.create({
     left: 40,
     width: 44,
     height: 48,
-    backgroundColor: "#535353",
+    backgroundColor: "transparent",
   },
   cactus: {
     position: "absolute",

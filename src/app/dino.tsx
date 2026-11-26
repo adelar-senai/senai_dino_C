@@ -32,7 +32,16 @@ export default function DinoScreen() {
   return (
     <ThemedView style={styles.container}>
       <Pressable onPressIn={iniciarPulo} style={styles.game}>
-        <View style={styles.ground}></View>
+
+          <Image
+            source={require("@/assets/images/cenario do jogo.png")}
+            style={{
+              width: 850,
+              right: 40,
+              height: 320,
+            }}
+          />
+
         <Animated.View
           style={[
             styles.dino,
@@ -41,18 +50,29 @@ export default function DinoScreen() {
             },
           ]}
         >
-          {" "}
           <Image
-            source={require("@/assets/images/dino_car_transparent.png")}
+            source={require("@/assets/images/lin-correndo.png")}
             style={{
-              width: 120,
+              width: 115,
               right: 37,
-              height: 58,
+              height: 56,
               resizeMode: "contain",
             }}
           />
         </Animated.View>
-        <View style={styles.cactus} />
+
+        <View style={styles.cactus}>
+          <Image
+            source={require("@/assets/images/galinha-barreira.png")}
+            style={{
+              width: 115,
+              right: 37,
+              bottom: 10,
+              height: 54,
+              resizeMode: "contain",
+            }}
+          />
+        </View>
       </Pressable>
     </ThemedView>
   );
@@ -63,6 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#302e2e",
   },
   game: {
     width: GAME_WIDTH,
@@ -70,15 +91,12 @@ const styles = StyleSheet.create({
     position: "relative", // referência para os filhos absolutos
     overflow: "hidden", // cacto some ao sair da área
     backgroundColor: "#f7f7f7",
+    borderWidth: 4,
+    borderColor: "#09d6fa",
+    borderRadius: 8,
+
   },
-  ground: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: GROUND,
-    backgroundColor: "#535353",
-  },
+
   dino: {
     position: "absolute",
     bottom: GROUND, // em cima do chão
@@ -93,6 +111,6 @@ const styles = StyleSheet.create({
     left: GAME_WIDTH - 20, // começa na borda direita
     width: 20,
     height: 40,
-    backgroundColor: "green",
+    backgroundColor: "transparent",
   },
 });

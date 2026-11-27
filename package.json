@@ -41,10 +41,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest --watch"
+    "test": "jest --watchAll=false"
   },
   "private": true,
-
   "jest": {
     "preset": "jest-expo"
   }
